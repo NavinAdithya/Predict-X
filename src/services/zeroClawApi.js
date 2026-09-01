@@ -5,34 +5,40 @@ const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemi
 
 async function callGemini(prompt) {
   if (!API_KEY) {
-    throw new Error('Missing VITE_GEMINI_API_KEY environment variable.');
+    throw new Error('Missing VITE_GEMINI_API_KEY environment variable. Please configure it in .env');
   }
 
-  const response = await fetch(`${GEMINI_URL}?key=${API_KEY}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 4096,
-      },
-    }),
-  });
+  try {
+    const response = await fetch(`${GEMINI_URL}?key=${API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 4096,
+        },
+      }),
+    });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`Gemini API error (${response.status}): ${errorBody}`);
-  }
+    if (!response.ok) {
+      const errorBody = await response.text();
+      const safeError = errorBody.split(API_KEY).join('***REDACTED***');
+      throw new Error(`Gemini API error (${response.status}): ${safeError}`);
+    }
 
-  const data = await response.json();
-  const parts = data?.candidates?.[0]?.content?.parts || [];
-  const textPart = parts.find((p) => p.text && !p.thought) || parts[0];
-  const text = textPart?.text || '';
-  if (!text) {
-    throw new Error('Gemini returned an empty response.');
+    const data = await response.json();
+    const parts = data?.candidates?.[0]?.content?.parts || [];
+    const textPart = parts.find((p) => p.text && !p.thought) || parts[0];
+    const text = textPart?.text || '';
+    if (!text) {
+      throw new Error('Gemini returned an empty response.');
+    }
+    return text;
+  } catch (err) {
+    const safeMessage = (err.message || 'Unknown error').split(API_KEY).join('***REDACTED***');
+    throw new Error(safeMessage);
   }
-  return text;
 }
 
 export async function chatWithZeroClaw(message, context = {}) {

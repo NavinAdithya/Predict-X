@@ -434,6 +434,14 @@ function handleDashboard(req, res) {
   });
 }
 
+function sanitizePathDisplay(fullPath) {
+  if (!fullPath) return '';
+  const cwd = process.cwd();
+  const rel = path.relative(cwd, fullPath).replace(/\\/g, '/');
+  if (!rel.startsWith('..')) return rel;
+  return path.basename(fullPath);
+}
+
 function handleHealth(req, res) {
   const snapshot = loadCowrieData();
   const ready = Boolean(snapshot.paths.logFile);
@@ -443,8 +451,8 @@ function handleHealth(req, res) {
     events: snapshot.events.length,
     s3: ready ? 'ok' : 'error',
     dynamodb: ready ? 'ok' : 'error',
-    bucket: snapshot.paths.logDir || 'Cowrie log directory not found',
-    table: snapshot.paths.logFile || 'cowrie.json not found',
+    bucket: sanitizePathDisplay(snapshot.paths.logDir) || 'var/log/cowrie',
+    table: sanitizePathDisplay(snapshot.paths.logFile) || 'var/log/cowrie/cowrie.json',
   });
 }
 

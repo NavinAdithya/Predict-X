@@ -1,25 +1,67 @@
-# Dependencies
+# ==========================================
+# PREDICT-X Security & Environment Protection
+# ==========================================
+
+# 1. Environment files & Secrets
+.env
+.env.*
+!.env.example
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+*.secret
+*.secrets
+*.token
+*.tokens
+*.credentials
+*.creds
+
+# 2. Cryptographic Keys & Certificates
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.cer
+*.der
+id_rsa*
+id_ecdsa*
+id_ed25519*
+*.pub
+
+# 3. Cloud Provider & Service Account Credentials
+service-account*.json
+google-credentials*.json
+aws-credentials*
+firebase-adminsdk*.json
+*-adminsdk-*.json
+client_secrets*.json
+
+# 4. Dependencies
 node_modules/
 .pnp
 .pnp.js
 
-# Production build
+# 5. Production Builds & Outputs
 dist/
 dist-ssr/
 *.local
 
-# Environment files
-.env
-.env*.local
-
-# Logs
+# 6. Logs & Runtime Debugging
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*.out
+*.pid
+*.seed
+*.pid.lock
 
-# Editor & OS files
+# 7. Editor, OS & IDE Metadata
 .vscode/
 .idea/
 *.suo
@@ -28,12 +70,30 @@ lerna-debug.log*
 *.sln
 *.sw?
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Archives & Temp
+# 8. Database Dumps & Local Stores
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql
+
+# 9. Archives, Backups & Temp Artifacts
 *.zip
+*.tar
 *.tar.gz
+*.tgz
 *.rar
+*.7z
+*.bak
+*.backup
+*.tmp
 Predictx-Dashboard/
 scratch/
 .agents/
