@@ -34,5 +34,6 @@ Thumbs.db
 *.zip
 *.tar.gz
 *.rar
+Predictx-Dashboard/
 scratch/
 .agents/

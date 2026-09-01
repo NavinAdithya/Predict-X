@@ -195,7 +195,7 @@ To test the real-time edge risk classification and self-poisoning engine:
 
 ### GitHub Pages (Automated CI/CD)
 
-The repository includes a automated GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and deploys the application directly to GitHub Pages on every push to `main`.
+The repository includes an automated GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and deploys the application directly to GitHub Pages on every push to `main`.
 
 **To activate GitHub Pages on the repo:**
 1. Navigate to **Settings** → **Pages** in the [Predict-X repository](https://github.com/NavinAdithya/Predict-X/settings/pages).
